@@ -145,3 +145,37 @@ p{
         margin:.5em 0 0;
     }
 }
+
+@media(min-width:1080px){
+    body{
+        padding: 0 10em;
+
+    }
+
+    h1{
+        font-size: 7rem;
+    }
+     p{
+        font-size: 2rem;
+        line-height: 1.75em;
+    }
+
+    .signup-form{
+        grid-template-rows: repeat(8, 70px) 50px;
+    }
+
+    .btn{
+        font-size: 1.5rem;
+        border-radius: 30px;
+        margin-top: 5.5em;
+    }
+
+    header{
+        margin-left:2em;
+    }
+
+    label, input{
+        font-size: 1.75rem;
+    }
+
+}
