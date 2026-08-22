@@ -1,0 +1,182 @@
+body{
+    margin:0;
+    padding:2em;
+    background-color: #1c1c1c;
+    color:white;
+    font-family: "Montserrat", sans-serif;
+}
+
+header{
+    text-align: justify;
+    height:20vh;
+    width:90%;
+    margin-bottom: 3.5em;
+    padding-left: 1em;
+}
+
+.signup-form{
+    display:grid;
+    grid-template-rows: repeat(8, 40px) 50px;
+    grid-template-columns: 1fr;
+    justify-content: center;
+}
+
+label{
+    align-self: center;
+}
+
+input{
+    margin-bottom: .5em;
+}
+
+.btn{
+    padding: 0.75em;
+    border-radius: 15px;
+    align-self: center;
+    background-color: #55a630;
+    border:none;
+    font-weight: bold;
+    color:white;
+    margin-top: 4em;
+}
+
+h1{
+    color: #55a630;
+    text-align: center;
+}
+
+p{
+    line-height: 1.5em;
+}
+
+@media(min-width:420px){
+    header{
+        text-align: justify;
+        padding-left: 1em;
+        margin-bottom: 0;
+    }
+
+ .form-container{
+        padding:0 1.25em;
+        margin-top: 1.5em;
+    }
+
+    p{
+        line-height: 1.75em;
+    }
+}
+
+@media(min-width:550px){
+
+    .form-container{
+        padding:0 1.75em;
+    }
+
+    .btn{
+        font-size: 1em;
+    }
+
+    p{
+        font-size: 1.15rem;
+        line-height: 1.5em;
+    }
+
+}
+
+@media(min-width:720px){
+
+    h1{
+        font-size: 3rem;
+        padding-left: 1em;
+    }
+
+    .btn{
+        font-size: 1rem;
+    }
+
+    p{
+        padding-left: 2em;
+        line-height: 1.75em;
+    }
+
+    .form-container{
+        padding:0 3.5em;
+    }
+
+}
+
+@media(min-width:850px){
+  
+    body{
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        grid-template-rows: auto;
+        grid-template-areas: "head form";
+        height: 100vh;
+        overflow: hidden;
+        place-content: center;
+    }
+
+    header{
+        grid-area: "head";
+        align-self: center;
+        height:35vh;
+    }
+
+    .form-container{
+        grid-area:"form";
+        display: flex;
+        justify-content: center;
+        margin-top: 0;
+    }
+
+    .signup-form{
+       width: 80%;
+    }
+
+    h1{
+        font-size: 3rem;
+        margin: 0;
+        padding-left: 0.5em;
+    }
+    
+    p{
+        font-size: 1.15 rem;
+        line-height: 1.75em;
+        margin:.5em 0 0;
+    }
+}
+
+@media(min-width:1080px){
+    body{
+        padding: 0 10em;
+    }
+
+    h1{
+        font-size: 7rem;
+    }
+     p{
+        font-size: 2rem;
+        line-height: 1.75em;
+    }
+
+    .signup-form{
+        grid-template-rows: repeat(8, 70px) 50px;
+    }
+
+    .btn{
+        font-size: 1.5rem;
+        border-radius: 30px;
+        margin-top: 5.5em;
+    }
+
+    header{
+        margin-left:2em;
+        height:35vh;
+    }
+
+    label, input{
+        font-size: 1.75rem;
+    }
+
+}
