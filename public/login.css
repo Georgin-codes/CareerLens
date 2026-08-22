@@ -120,7 +120,7 @@ p{
     header{
         grid-area: "head";
         align-self: center;
-        height:35vh;
+        height:50vh;
     }
 
     .form-container{
@@ -172,7 +172,7 @@ p{
 
     header{
         margin-left:2em;
-        height:35vh;
+        height:40vh;
     }
 
     label, input{
