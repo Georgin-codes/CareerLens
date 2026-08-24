@@ -11,8 +11,8 @@ app.use(express.json())
 app.use(express.static('public'))
 
 app.use('/api', apiRouter)
-app.use('', (req, res)=>{
-    res.status(404).json({message:"Endpoint not reachable "})
+app.use((req, res)=>{
+    res.status(404).json({message:"Endpoint not found "})
 })
 
 
