@@ -19,18 +19,21 @@ async function analyze(e){
         formData.append("resume", resume)
         formData.append("jobDesc", jobDescription)
 
-        const response = await fetch('/api/analyze', {
+        try{
+            const response = await fetch('/api/analyze', {
             method: "POST",
-            body:formData,
-        })
+            body:formData})
 
-        const data = await response.json()
-        console.log(data)
-        console.log(response.status)
+            const data = await response.json()
+            console.log(data)
+            console.log(response.status)
 
-
+        }
+        catch(err){
+            console.error(err)
+        }
+      
     }
     
-
 
 }
