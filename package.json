@@ -1,0 +1,30 @@
+{
+  "name": "careerlens",
+  "version": "1.0.0",
+  "description": "AI-powered resume and job description analyzer that identifies skill gaps and provides career insights.",
+  "homepage": "https://github.com/Georgin-codes/CareerLens#readme",
+  "bugs": {
+    "url": "https://github.com/Georgin-codes/CareerLens/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Georgin-codes/CareerLens.git"
+  },
+  "license": "ISC",
+  "author": "Ginu George",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "multer": "^2.2.0",
+    "pdf-parse": "^2.4.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}

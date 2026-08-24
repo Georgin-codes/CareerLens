@@ -11,23 +11,24 @@
 </head>
 <body>
     <div class="container">
-        <form>
+        <form id="form">
             <label id="attach-label" for="file">Attach resume:</label>
-            <input type="file" id="file">
-            <p class="format">(Accepted Format *.pdf , *.doc, *.txt)</p>
+            <input type="file" id="file" accept=".pdf" required>
+            <p class="format">(Accepted Format *.pdf , *.docx, *.txt)</p>
 
             <label class="text-label" for="text-box">Paste job description in the box below</label>
-            
             <div class="text">
-                <textarea></textarea>
+                <textarea  id="text-box" required></textarea>
             </div>
 
-            <button class="analyze-btn">Analyze</button>
+            <button class="analyze-btn" id="analyze-btn">Analyze</button>
         </form>
 
         <div class="response">
             <p>Hai</p>
         </div>
+
+        <script src="index.js"></script>
     </div>
 </body>
 </html>
