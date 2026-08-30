@@ -6,7 +6,7 @@ import DOMPurify from "https://cdn.jsdelivr.net/npm/dompurify/+esm"
 const form = document.getElementById('form')
 const file = document.getElementById('file')
 const textArea = document.getElementById('text-box')
-const responsePara  = document.getElementById("responsePara")
+const responseContainer  = document.getElementById("response")
 
 form.addEventListener('submit', analyze)
 
@@ -30,13 +30,34 @@ async function analyze(e){
             method: "POST",
             body:formData})
 
-            const data = await response.json()
-            const html = marked.parse(data)
-            const cleanHtml = DOMPurify.sanitize(html)
+            const reader = response.body.getReader()
+            const decoder = new TextDecoder()
 
-            responsePara.innerHTML = cleanHtml
+            let fullResponse = ""
 
-            console.log(data)
+            while(true){
+                const{value, done} = await reader.read()
+
+                if(done){
+                    break
+                }
+
+                const chunk = decoder.decode(value, {stream:true})
+                fullResponse += chunk
+
+                const html = marked.parse(fullResponse)
+                const cleanHtml = DOMPurify.sanitize(html)
+
+                responseContainer.innerHTML = cleanHtml
+
+                //slowdown streaming
+                // await new Promise((resolve)=>{
+                //     setTimeout(resolve, 100)
+                // })
+
+            }
+
+            // console.log(cleanHtml)
 
         }
         catch(err){
@@ -48,5 +69,3 @@ async function analyze(e){
 
 }
 
- const parsedData =  marked.Parse()
-        const clean = DOMPurify.sanitize(parsedData)

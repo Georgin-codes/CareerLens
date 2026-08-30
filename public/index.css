@@ -55,8 +55,10 @@ input, .text-label, .analyze-btn, .text{
     margin: 0;
 }
 
-.response p{
-    padding: 0 3em;
+.response{
+    padding: 0 3em 3em;
+    text-align: justify;
+    line-height: 1.5;
 }
 
 @media(min-width:450px){

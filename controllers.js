@@ -18,8 +18,12 @@ export async function getUserInfo(req, res){
 
         const pdfData = result.text
 
-        const aiResponse = await getAiResponse(pdfData, jobDesc)
-        res.json(aiResponse)
+        res.setHeader("Content-Type", "text/event-stream")
+        res.setHeader("Cache-Control", "no-cache")
+        res.setHeader("Connection", "keep-alive")
+
+        await getAiResponse(req, res, pdfData, jobDesc)
+        res.end()
     }
     catch(error){
         console.error({error:`PDF not parsed successfully, ${err}`})
