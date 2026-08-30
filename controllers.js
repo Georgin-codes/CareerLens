@@ -1,5 +1,5 @@
 import {PDFParse} from 'pdf-parse'
-import { client } from './openAI.js'
+import { getAiResponse } from './getAiResponse.js'
 
 
 
@@ -10,27 +10,19 @@ export async function getUserInfo(req, res){
 
     // prasing the pdf
     try{
+        const jobDesc = req.body.jobDesc
+
         const parser = new PDFParse({data:req.file.buffer})
         const result = await parser.getText()
         await parser.destroy()
-        console.log(result.text)
-        res.json({message:"pdf succesfully parsed."})
+
+        const pdfData = result.text
+
+        const aiResponse = await getAiResponse(pdfData, jobDesc)
+        res.json(aiResponse)
     }
     catch(error){
         console.error({error:`PDF not parsed successfully, ${err}`})
     }
-
-    const aiResponse = await client.responses.create({
-        model:process.env.OPENAI_MODEL,
-        input:"Hello"
-
-    })
-
-    console.log(aiResponse.output_text)
-   
-
-    
-
-    
 
 }

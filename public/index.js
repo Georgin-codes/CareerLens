@@ -1,6 +1,12 @@
+import { marked } from "https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js"
+import DOMPurify from "https://cdn.jsdelivr.net/npm/dompurify/+esm"
+
+
+
 const form = document.getElementById('form')
 const file = document.getElementById('file')
 const textArea = document.getElementById('text-box')
+const responsePara  = document.getElementById("responsePara")
 
 form.addEventListener('submit', analyze)
 
@@ -25,8 +31,12 @@ async function analyze(e){
             body:formData})
 
             const data = await response.json()
+            const html = marked.parse(data)
+            const cleanHtml = DOMPurify.sanitize(html)
+
+            responsePara.innerHTML = cleanHtml
+
             console.log(data)
-            console.log(response.status)
 
         }
         catch(err){
@@ -37,3 +47,6 @@ async function analyze(e){
     
 
 }
+
+ const parsedData =  marked.Parse()
+        const clean = DOMPurify.sanitize(parsedData)
