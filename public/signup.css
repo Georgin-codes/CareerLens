@@ -49,6 +49,13 @@ p{
     line-height: 1.5em;
 }
 
+
+.response-container{
+    display: flex;
+    justify-content: center;
+    padding:2em 0;
+}
+
 @media(min-width:420px){
     header{
         text-align: justify;
@@ -126,10 +133,22 @@ p{
     .form-container{
         grid-area:"form";
         display: flex;
+        flex-direction: column;
         justify-content: center;
+        align-items: center;
         margin-top: 0;
     }
 
+    .response-container{
+        padding-top: 3em;
+    }
+
+    .response{
+        padding-left: 0;
+        font-size: 1rem;
+    }
+
+    
     .signup-form{
        width: 80%;
     }
@@ -177,6 +196,10 @@ p{
 
     label, input{
         font-size: 1.75rem;
+    }
+
+    .response-container{
+        padding-top: 5em;
     }
 
 }

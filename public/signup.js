@@ -13,6 +13,7 @@
 //             <button class="btn">Submit</button>
 
 const form = document.getElementById('signup-form')
+const responsePara = document.getElementById('response')
 
 
 form.addEventListener('submit', async (e)=>{
@@ -33,6 +34,10 @@ form.addEventListener('submit', async (e)=>{
             password:password
         })
     })
+
+    const data = await response.json()
+    responsePara.textContent = data.message
+    console.log(data.message)
 
    
 
