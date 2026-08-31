@@ -41,3 +41,14 @@ export async function getUserInfo(req, res){
     }
 
 }
+
+
+export async function registerUser(req, res){
+    const {name, email, userName, password} = req.body
+    // console.log(name, email, userName, password)
+    if(!name || !email || !userName || !password){
+        res.status(400).json({message:"All fields are required"})
+
+    }
+
+}
