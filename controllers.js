@@ -12,13 +12,24 @@ export async function getUserInfo(req, res){
     try{
         const jobDesc = req.body.jobDesc
 
+        //checking whether the user uploads the pdf or not
+        if(!req.file){
+            return res.status(400).json({error:"Resume pdf is required"})
+        }
+
         const parser = new PDFParse({data:req.file.buffer})
         const result = await parser.getText()
         await parser.destroy()
 
         const pdfData = result.text
 
-        res.setHeader("Content-Type", "text/event-stream")
+        //data type validation
+        if(typeof jobDesc !=="string" || typeof pdfData !=="string" || !jobDesc.trim() || !pdfData.trim()){
+            return res.status(400).json({error:"Valid resume and job description are required"})
+
+        }
+
+        res.setHeader("Content-Type", "text/plain")
         res.setHeader("Cache-Control", "no-cache")
         res.setHeader("Connection", "keep-alive")
 
@@ -26,7 +37,7 @@ export async function getUserInfo(req, res){
         res.end()
     }
     catch(error){
-        console.error({error:`PDF not parsed successfully, ${err}`})
+        console.error({error:`PDF not parsed successfully, ${error}`})
     }
 
 }
