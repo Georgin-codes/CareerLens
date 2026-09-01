@@ -61,6 +61,10 @@ input, .text-label, .analyze-btn, .text{
     line-height: 1.5;
 }
 
+#user{
+    margin-left: 1em;
+}
+
 @media(min-width:450px){
     #attach-label{
         grid-column: span 4;

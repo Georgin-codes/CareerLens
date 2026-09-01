@@ -117,8 +117,51 @@ export async function registerUser(req, res){
         res.status(500).json({meassage:"Registration Failed, please try again"})
     }
    
+
+}
+
+
+export async function loginUser(req, res){
+
+    let {userName, password} = req.body
+    console.log(userName, password)
+
+    if(!userName || !password){
+        return res.status(400).json({message:"All the fields are required"})
+    }
+
+    userName = userName.trim()
+
+    try{
+        const supabaseClient = await connectDb()
+        const {data, error} = await supabaseClient.from('users')
+                                            .select('*')
+                                            .eq("user_name", userName)
+                                            .single();
+        // console.log(data, error)
+
+        if(error){
+            console.error(`Database error, error: ${error}`)
+            return res.status(500).json({message:"Authentication failed"})
+        }
+
+        const isValidPassword = await bcrypt.compare(password, data.password)
+        
+        if(!isValidPassword){
+            return res.status(401).json({message:"Login unsuccessfull, invalid user name or password"})
+        }
+        req.session.userId = data.id
+        req.session.profileName = data.user_name
+        res.json({message:"User logged in"})
             
+    }
+    catch(error){
+        console.error(`Authentication failed, please try again, error: ${error.message}`)
 
+    }
 
+}
 
+export function currentUser(req, res){
+    res.json({profileName:req.session.profileName})
 }

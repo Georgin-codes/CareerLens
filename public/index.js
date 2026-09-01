@@ -3,10 +3,28 @@ import DOMPurify from "https://cdn.jsdelivr.net/npm/dompurify/+esm"
 
 
 
+
 const form = document.getElementById('form')
 const file = document.getElementById('file')
 const textArea = document.getElementById('text-box')
 const responseContainer  = document.getElementById("response")
+const guestName = document.getElementById('user')
+
+
+async function getProfileName(){
+    try{
+        
+        const res = await fetch('/api/auth/me')
+        const data = await res.json()
+        guestName.innerHTML = `Welcome, <b>${data.profileName}!</b>`
+        
+    }
+    catch(error){
+        console.error(`Error fetching profile name, error: ${error.message}`)
+    }
+
+}
+
 
 form.addEventListener('submit', analyze)
 
@@ -69,3 +87,4 @@ async function analyze(e){
 
 }
 
+getProfileName()
