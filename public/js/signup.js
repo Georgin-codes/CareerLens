@@ -11,7 +11,8 @@ form.addEventListener('submit', async (e)=>{
     const userName = document.getElementById('userName').value.trim()
     const password = document.getElementById('password').value
 
-    const response = await fetch('/api/auth/register', {
+    try{
+        const response = await fetch('/api/auth/register', {
         method:"POST",
         headers:{"Content-Type":"application/json"},
         body:JSON.stringify({
@@ -19,11 +20,16 @@ form.addEventListener('submit', async (e)=>{
             email:email,
             userName:userName,
             password:password
+            })
         })
-    })
 
-    const data = await response.json()
-    responsePara.innerHTML = data.message
+        const data = await response.json()
+        responsePara.innerHTML = data.message
+    }
+   catch(error){
+    console.error(`Error fetching data, ${error}`)
+
+   }
 
     
 

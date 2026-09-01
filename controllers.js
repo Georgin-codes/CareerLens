@@ -81,7 +81,7 @@ export async function registerUser(req, res){
 
         //check for existing email or username
         if(data.length!==0){
-            return res.status(400).json({message:`User name or Email already exist. <a href='index.html'>Login</a>`})
+            return res.status(400).json({message:"User name or Email already exist."})
         }
 
         //password hashing
@@ -101,11 +101,11 @@ export async function registerUser(req, res){
         
         //if the database return error object
         if(errorObj){
-            console.error("Database insert failed")
+            console.error(`Database insert failed, error: ${errorObj}`)
             return res.status(500).json({message:"Registration Failed"})
         }
 
-        res.json({message:`User registered successfully, please login with your credentials. <a href='index.html'>Login</a>`})
+        res.json({message:"User registered successfully, please login with your credentials."})
 
         // console.log("data:", dataObj)
         // console.log("error:", errorObj)
@@ -126,7 +126,7 @@ export async function loginUser(req, res){
     let {userName, password} = req.body
 
     if(!userName || !password){
-        return res.status(400).json({message:"All the fields are required"})
+        return res.status(400).json({message:"All fields are required"})
     }
 
     userName = userName.trim()
@@ -141,13 +141,13 @@ export async function loginUser(req, res){
 
         if(error){
             console.error(`User not exist in database, error: ${error}`)
-            return res.status(500).json({message:`Invalid user name or password. <a href="signup.html">signup</a>`})
+            return res.status(500).json({message:"Invalid user name or password."})
         }
 
         const isValidPassword = await bcrypt.compare(password, data.password)
         
         if(!isValidPassword){
-            return res.status(401).json({message:`Invalid password.`})
+            return res.status(401).json({message:"Invalid password."})
         }
         req.session.userId = data.id
         req.session.profileName = data.user_name
