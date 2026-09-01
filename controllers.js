@@ -124,7 +124,6 @@ export async function registerUser(req, res){
 export async function loginUser(req, res){
 
     let {userName, password} = req.body
-    console.log(userName, password)
 
     if(!userName || !password){
         return res.status(400).json({message:"All the fields are required"})
@@ -141,14 +140,14 @@ export async function loginUser(req, res){
         // console.log(data, error)
 
         if(error){
-            console.error(`Database error, error: ${error}`)
-            return res.status(500).json({message:"Authentication failed"})
+            console.error(`User not exist in database, error: ${error}`)
+            return res.status(500).json({message:"Invalid user name or password."})
         }
 
         const isValidPassword = await bcrypt.compare(password, data.password)
         
         if(!isValidPassword){
-            return res.status(401).json({message:"Login unsuccessfull, invalid user name or password"})
+            return res.status(401).json({message:`Invalid password.`})
         }
         req.session.userId = data.id
         req.session.profileName = data.user_name

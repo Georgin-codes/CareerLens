@@ -2,6 +2,7 @@
 
 const btn = document.getElementById('btn')
 const form = document.getElementById('signup-form')
+const responseMessage = document.getElementById('link-para')
 
 
 
@@ -20,6 +21,8 @@ form.addEventListener('submit', async (e)=>{
                     })
                 })
     const data = await response.json()
+    responseMessage.innerHTML = data.message
+
 
     if(response.ok){
         window.location.href = 'home.html'
