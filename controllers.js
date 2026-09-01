@@ -105,7 +105,7 @@ export async function registerUser(req, res){
             return res.status(500).json({message:"Registration Failed"})
         }
 
-        res.json({message:"User registered successfully"})
+        res.json({message:`User registered successfully, please login with your credentials. <a href='login.html'>Login</a>`})
 
         // console.log("data:", dataObj)
         // console.log("error:", errorObj)

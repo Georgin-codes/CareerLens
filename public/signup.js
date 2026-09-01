@@ -38,9 +38,9 @@ form.addEventListener('submit', async (e)=>{
     const data = await response.json()
     responsePara.innerHTML = data.message
 
-    if(response.ok){
-        window.location.href = 'home.html'
-    }
+    // if(response.ok){
+    //     window.location.href = 'home.html'
+    // }
     
 
 
