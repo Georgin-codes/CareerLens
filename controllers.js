@@ -1,7 +1,8 @@
 import {PDFParse} from 'pdf-parse'
 import { getAiResponse } from './getAiResponse.js'
 import validator from 'validator'
-
+import bcrypt from 'bcryptjs'
+import { connectDb } from './db/db.js'
 
 
 export async function getUserInfo(req, res){
@@ -45,15 +46,17 @@ export async function getUserInfo(req, res){
 
 
 export async function registerUser(req, res){
-    const {name, email, userName, password} = req.body
+    let {name, email, userName, password} = req.body
     // console.log(name, email, userName, password)
     if(!name || !email || !userName || !password){
         return res.status(400).json({message:"All fields are required"})
     }
 
-    name.trim()
-    email.trim()
-    userName.trim()
+    name = name.trim()
+    email = email.trim().toLowerCase()
+    userName = userName.trim()
+
+    // console.log("email:", email)
     
     if(!validator.isEmail(email)){
         return res.status(400).json({message:"Please provide a valid email"})
@@ -63,5 +66,59 @@ export async function registerUser(req, res){
     if(!pattern.test(userName)){
         return res.status(400).json({message:"Username must be 3–20 characters and contain only letters, numbers, underscores (_), or hyphens (-)."})
     }
+
+    try{
+        const supabaseClient = await connectDb()
+        const {data, error} = await supabaseClient.from('users')
+                        .select('*')
+                        .or(`user_name.eq.${userName}, email.eq.${email}`);
+
+        //if the database return error object
+        if(error){
+            console.error(`Database error, error: ${error}`)
+            return res.status(500).json({message:"Authentication failed"})
+        }
+
+        //check for existing email or username
+        if(data.length!==0){
+            return res.status(400).json({message:`User name or Email already exist. <a href=''>Login</a>`})
+        }
+
+        //password hashing
+        const hashedPassword = await bcrypt.hash(password, 10)
+
+        //insert user to database
+        const { data:dataObj, error:errorObj } = await supabaseClient
+                                .from("users")
+                                .insert({
+                                    name: name,
+                                    email: email,
+                                    user_name: userName,
+                                    password: hashedPassword
+                                })
+                                .select("id, name, email, user_name, created_at")
+                                .single();
+        
+        //if the database return error object
+        if(errorObj){
+            console.error("Database insert failed")
+            return res.status(500).json({message:"Registration Failed"})
+        }
+
+        res.json({message:"User registered successfully"})
+
+        // console.log("data:", dataObj)
+        // console.log("error:", errorObj)
+        
+
+    }
+    catch(error){
+        console.error(`Registration failed, error: ${error}`)
+        res.status(500).json({meassage:"Registration Failed, please try again"})
+    }
+   
+            
+
+
 
 }
