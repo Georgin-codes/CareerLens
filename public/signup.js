@@ -37,7 +37,7 @@ form.addEventListener('submit', async (e)=>{
 
     const data = await response.json()
     responsePara.textContent = data.message
-    console.log(data.message)
+
 
    
 

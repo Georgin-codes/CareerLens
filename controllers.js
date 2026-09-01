@@ -1,5 +1,6 @@
 import {PDFParse} from 'pdf-parse'
 import { getAiResponse } from './getAiResponse.js'
+import validator from 'validator'
 
 
 
@@ -47,8 +48,20 @@ export async function registerUser(req, res){
     const {name, email, userName, password} = req.body
     // console.log(name, email, userName, password)
     if(!name || !email || !userName || !password){
-        res.status(400).json({message:"All fields are required"})
+        return res.status(400).json({message:"All fields are required"})
+    }
 
+    name.trim()
+    email.trim()
+    userName.trim()
+    
+    if(!validator.isEmail(email)){
+        return res.status(400).json({message:"Please provide a valid email"})
+    }
+
+    const pattern = /^[a-zA-Z0-9_-]{3,20}$/
+    if(!pattern.test(userName)){
+        return res.status(400).json({message:"Username must be 3–20 characters and contain only letters, numbers, underscores (_), or hyphens (-)."})
     }
 
 }
