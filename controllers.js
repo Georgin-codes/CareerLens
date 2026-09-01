@@ -81,7 +81,7 @@ export async function registerUser(req, res){
 
         //check for existing email or username
         if(data.length!==0){
-            return res.status(400).json({message:`User name or Email already exist. <a href=''>Login</a>`})
+            return res.status(400).json({message:`User name or Email already exist. <a href='index.html'>Login</a>`})
         }
 
         //password hashing
@@ -105,7 +105,7 @@ export async function registerUser(req, res){
             return res.status(500).json({message:"Registration Failed"})
         }
 
-        res.json({message:`User registered successfully, please login with your credentials. <a href='login.html'>Login</a>`})
+        res.json({message:`User registered successfully, please login with your credentials. <a href='index.html'>Login</a>`})
 
         // console.log("data:", dataObj)
         // console.log("error:", errorObj)
@@ -141,7 +141,7 @@ export async function loginUser(req, res){
 
         if(error){
             console.error(`User not exist in database, error: ${error}`)
-            return res.status(500).json({message:"Invalid user name or password."})
+            return res.status(500).json({message:`Invalid user name or password. <a href="signup.html">signup</a>`})
         }
 
         const isValidPassword = await bcrypt.compare(password, data.password)

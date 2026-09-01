@@ -1,16 +1,3 @@
-//    <label for="Full Name">Full Name</label>
-//             <input type="text" id="Full Name">
-
-//             <label for="Email">Email</label>
-//             <input type="mail" id="Email">
-
-//             <label for="User Name">User Name</label>
-//             <input type="text" id=""User Name">
-
-//             <label for="Password">Password</label>
-//             <input type="text" id="Password">
-
-//             <button class="btn">Submit</button>
 
 const form = document.getElementById('signup-form')
 const responsePara = document.getElementById('response')
@@ -38,9 +25,6 @@ form.addEventListener('submit', async (e)=>{
     const data = await response.json()
     responsePara.innerHTML = data.message
 
-    // if(response.ok){
-    //     window.location.href = 'home.html'
-    // }
     
 
 
