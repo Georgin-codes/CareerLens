@@ -56,6 +56,15 @@ p{
     padding:2em 0;
 }
 
+.response a{
+        color:#55a630;
+        /* font-size: 0.75em; */
+    }
+
+.response{
+    font-size: 0.75em;
+}
+
 @media(min-width:420px){
     header{
         text-align: justify;
@@ -146,10 +155,6 @@ p{
     .response{
         padding-left: 0;
         font-size: 1rem;
-    }
-
-    .response a{
-        color:#55a630;
     }
 
     

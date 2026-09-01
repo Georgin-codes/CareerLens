@@ -65,6 +65,10 @@ a{
     font-size: 0.85rem;
 }
 
+.link-para a{
+    color:#55a630;
+}
+
 @media(min-width:420px){
     header{
         text-align: justify;
