@@ -151,6 +151,9 @@ export async function loginUser(req, res){
         }
         req.session.userId = data.id
         req.session.profileName = data.user_name
+
+        // console.log("Login session:", req.session)
+
         res.json({message:"Logging in.."})
             
     }
@@ -162,5 +165,7 @@ export async function loginUser(req, res){
 }
 
 export function currentUser(req, res){
+
+    // console.log("Current user session:", req.session)
     res.json({profileName:req.session.profileName})
 }

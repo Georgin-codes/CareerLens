@@ -26,6 +26,7 @@ app.use(express.static('public'))
 
 app.use('/api', apiRouter)
 app.use('/api', authRouter)
+
 app.use((req, res)=>{
     res.status(404).json({message:"Endpoint not found "})
 })
