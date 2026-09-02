@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="css/home.css">
 </head>
 <body>
-    <p id="user"></p>
+    <p id="user">Welcome, <span><b>Guest!</b></span></p>
     <div class="container">
         <form id="form">
             <label id="attach-label" for="file">Attach resume:</label>
@@ -26,6 +26,10 @@
         </form>
 
         <div class="response" id="response"></div>
+    </div>
+
+    <div class="message-box" id="message-box">
+        <p id="message">Please wait...</p>
     </div>
 
     <script src="js/home.js" type="module"></script>

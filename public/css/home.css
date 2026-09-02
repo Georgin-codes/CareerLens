@@ -50,6 +50,10 @@ input, .text-label, .analyze-btn, .text{
     font-size: 0.75rem;
 }
 
+ .analyze-btn:disabled{
+        background-color:  #AFC0A3;
+    }
+
 .format{
     grid-column: span 6;
     font-size: 0.75rem;
@@ -59,11 +63,34 @@ input, .text-label, .analyze-btn, .text{
 .response{
     padding: 0 3em 3em;
     text-align: justify;
+    /* display: flex; */
+    justify-content: center;
+    align-items: center;
     line-height: 1.5;
 }
 
 #user{
     margin-left: 1em;
+}
+
+.message-box{
+    background-color: #1c1c1c;
+    border:3px solid #55a630;
+    height:15vh;
+    width:70%;
+    display:none;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.85em;
+  
+    position: fixed;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    margin:auto;
+
+   
 }
 
 @media(min-width:450px){
@@ -113,8 +140,9 @@ input, .text-label, .analyze-btn, .text{
 
 @media(min-width:1080px){
    form{
-    font-size: 2.5rem;
+    font-size: 2rem;
     grid-row-gap:0.35em;
+    margin-top:0;
 }
 
 #attach-label{

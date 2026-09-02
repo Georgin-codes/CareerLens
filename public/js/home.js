@@ -9,6 +9,9 @@ const file = document.getElementById('file')
 const textArea = document.getElementById('text-box')
 const responseContainer  = document.getElementById("response")
 const guestName = document.getElementById('user')
+const btn = document.getElementById('analyze-btn')
+const messageBox = document.getElementById('message-box') 
+const message = document.getElementById("message")
 
 
 async function getProfileName(){
@@ -16,7 +19,11 @@ async function getProfileName(){
         
         const res = await fetch('/api/auth/me')
         const data = await res.json()
-        guestName.innerHTML = `Welcome, <b>${data.profileName}!</b>`
+
+        if(data.profileName){
+             guestName.innerHTML = `Welcome, <b>${data.profileName}!</b>`
+        }
+       
         
     }
     catch(error){
@@ -30,6 +37,13 @@ form.addEventListener('submit', analyze)
 
 async function analyze(e){
     e.preventDefault()
+
+    messageBox.style.display = "flex"
+    btn.disabled = true
+    form.style.color = "#C8D0C5"
+
+    
+    // description.style.color = "#C8D0C5"
 
     const jobDescription = textArea.value
     const resume = file.files[0]
@@ -52,11 +66,17 @@ async function analyze(e){
             const decoder = new TextDecoder()
 
             let fullResponse = ""
+            
+            //if the extracted content type of pdf or job description are not a string or invalid content
+            if(!response.ok){
+                message.textContent = response.message
+            }
 
             while(true){
                 const{value, done} = await reader.read()
 
                 if(done){
+                    btn.disabled = false
                     break
                 }
 
@@ -65,7 +85,11 @@ async function analyze(e){
 
                 const html = marked.parse(fullResponse)
                 const cleanHtml = DOMPurify.sanitize(html)
-
+                
+                if(messageBox.style.display==="flex"){
+                    messageBox.style.display = "none"
+                    form.style.color = "white"
+                }
                 responseContainer.innerHTML = cleanHtml
 
                 //slowdown streaming

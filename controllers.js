@@ -27,7 +27,7 @@ export async function getUserInfo(req, res){
 
         //data type validation
         if(typeof jobDesc !=="string" || typeof pdfData !=="string" || !jobDesc.trim() || !pdfData.trim()){
-            return res.status(400).json({error:"Valid resume and job description are required"})
+            return res.status(400).json({message:"Valid resume and job description are required"})
 
         }
 
