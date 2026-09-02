@@ -151,7 +151,7 @@ export async function loginUser(req, res){
         }
         req.session.userId = data.id
         req.session.profileName = data.user_name
-        res.json({message:"User logged in"})
+        res.json({message:"Logging in.."})
             
     }
     catch(error){

@@ -11,8 +11,8 @@
 </head>
 <body>
     <header>
-        <h1>CareerLens</h1>
-        <p>CareerLens helps you understand where your career stands and where to go next. Analyze your resume, discover skill gaps, and get personalized career insights—all in one place.</p>
+        <h1 id="title">CareerLens</h1>
+        <p id="description">CareerLens helps you understand where your career stands and where to go next. Analyze your resume, discover skill gaps, and get personalized career insights—all in one place.</p>
     </header>
 
     <main class="form-container">
@@ -31,6 +31,11 @@
             <p class="link-para" id="link-para">Don't have an account ? Please <a href="./signup.html">signup</a></p>
         </div>
     </main>
+
+    <div class="authentication-message" id="authentication-message">
+        <button id="close-btn">X</button>
+        <p id="api-response">Please wait...</p>
+    </div>
 
     <script src="js/index.js"></script>
     
