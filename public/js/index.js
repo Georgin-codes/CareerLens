@@ -37,7 +37,11 @@ form.addEventListener('submit', async (e)=>{
 
      if(response.ok){
             setTimeout(()=>{ 
-                window.location.href = '../home.html'}, 2000
+                apiResponseCont.style.display = "none"
+                submitBtn.disabled = false
+                title.style.color = "#55a630"
+                description.style.color = "white"
+                window.location.href = '/api/home'}, 2000
         )}
 })
 

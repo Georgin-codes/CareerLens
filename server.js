@@ -1,6 +1,6 @@
 import "dotenv/config"
 import express from 'express'
-import { apiRouter, authRouter } from './routes.js'
+import { apiRouter, authRouter, homeRouter } from './routes.js'
 import cors from 'cors'
 import session from 'express-session'
 
@@ -26,6 +26,7 @@ app.use(express.static('public'))
 
 app.use('/api', apiRouter)
 app.use('/api', authRouter)
+app.use('/api', homeRouter)
 
 app.use((req, res)=>{
     res.status(404).json({message:"Endpoint not found "})

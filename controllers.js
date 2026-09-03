@@ -3,6 +3,7 @@ import { getAiResponse } from './getAiResponse.js'
 import validator from 'validator'
 import bcrypt from 'bcryptjs'
 import { connectDb } from './db/db.js'
+import path from "path"
 
 
 export async function getUserInfo(req, res){
@@ -168,4 +169,8 @@ export function currentUser(req, res){
 
     // console.log("Current user session:", req.session)
     res.json({profileName:req.session.profileName})
+}
+
+export function serveHomePage(req, res){
+    res.sendFile(path.join(process.cwd(), "pages", "home.html"))
 }
