@@ -37,7 +37,7 @@ form.addEventListener('submit', async (e)=>{
 
         if(response.ok){
             setTimeout(()=>{ 
-                window.location.href = '../index.html'}, 2000
+                window.location.href = '/'}, 2000
         )}
 
     }

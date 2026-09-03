@@ -174,3 +174,10 @@ export function currentUser(req, res){
 export function serveHomePage(req, res){
     res.sendFile(path.join(process.cwd(), "pages", "home.html"))
 }
+
+export function logoutUser(req, res){
+    req.session.destroy(()=>{
+        res.json({message:"Logged out"})
+    })
+
+}

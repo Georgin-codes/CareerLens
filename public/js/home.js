@@ -12,6 +12,7 @@ const guestName = document.getElementById('user')
 const btn = document.getElementById('analyze-btn')
 const messageBox = document.getElementById('message-box') 
 const message = document.getElementById("message")
+const logoutBtn = document.getElementById("logout-btn")
 
 
 async function getProfileName(){
@@ -110,5 +111,11 @@ async function analyze(e){
     
 
 }
+
+logoutBtn.addEventListener("click", async ()=>{
+    const res = await fetch('/api/auth/logout')
+    window.location.href = '/'
+
+})
 
 getProfileName()

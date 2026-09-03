@@ -5,6 +5,7 @@ body{
     color:white;
     font-family: "Montserrat", sans-serif;
     /* overflow: hidden; */
+    position:relative;
 }
 
 form{
@@ -53,6 +54,20 @@ input, .text-label, .analyze-btn, .text{
  .analyze-btn:disabled{
         background-color:  #AFC0A3;
     }
+
+.logout-btn{
+    background-color: #374151;
+    color:white;
+    border:none;
+    font-size:0.75rem;
+    padding:0.5em;
+    border-radius:2px;
+    position:absolute;
+    top:0;
+    right:0;
+    margin-right:1em;
+    cursor: pointer;
+}
 
 .format{
     grid-column: span 6;
@@ -107,6 +122,10 @@ input, .text-label, .analyze-btn, .text{
     #attach-label{
         grid-column: span 3;
     }
+
+    .logout-btn{
+        padding:0.75em;
+    }
 }
 
 @media(min-width:720px){
@@ -117,6 +136,12 @@ input, .text-label, .analyze-btn, .text{
     .analyze-btn{
         font-size: 0.9rem;
     }
+
+     .logout-btn{
+        font-size: 1rem;
+        padding:0.75em;
+    }
+     
 }
 
 @media(min-width:850px){

@@ -1,4 +1,4 @@
-import { getUserInfo, registerUser, loginUser, currentUser, serveHomePage } from './controllers.js'
+import { getUserInfo, registerUser, loginUser, currentUser, serveHomePage, logoutUser } from './controllers.js'
 import express from 'express'
 import multer from 'multer'
 import { client } from './openAI.js'
@@ -16,6 +16,7 @@ authRouter.post('/auth/register', registerUser)
 authRouter.post('/auth/login', loginUser)
 authRouter.get('/auth/me', requireAuth, currentUser)
 homeRouter.get('/home', requireAuth, serveHomePage)
+authRouter.get('/auth/logout',logoutUser)
 
 
 
