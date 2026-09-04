@@ -55,8 +55,7 @@ export async function registerUser(req, res){
     name = name.trim()
     email = email.trim().toLowerCase()
 
-  
-    
+
     if(!validator.isEmail(email)){
         return res.status(400).json({message:"Please provide a valid email"})
     }
@@ -82,22 +81,20 @@ export async function registerUser(req, res){
         const {data:profileData,error:profileError} = await supabaseClient.from("profiles").insert({
             user_id : userId,
             full_name: name
-        }).select()
+                }).select()
 
-      
         if(profileError){
             console.error(`Profile creation unsuccessfull, ${profileError}`)
             return res.status(500).json({message:"Registration Failed"})
         }
-        
-        res.json({message:"Check your email to verify your account and continue"})
+
+        return res.json({message:"Check your email to verify your account and continue"})
 
     }
     catch(error){
         console.error(`Registration failed, error: ${error.message}`)
         return res.status(500).json({message:"Registration Failed"})
     }
-   
 
 }
 
@@ -149,13 +146,17 @@ export async function loginUser(req, res){
 
 }
 
-export function currentUser(req, res){
+export async function currentUser(req, res){
 
-    // console.log("Current user session:", req.session)\
-//    console.log(req.user)
     const userId = req.user.id
+    const supabaseClient = await connectDb()
+    const {data, error} = await supabaseClient.from("profiles").select("full_name").eq("user_id", userId).single()
 
-    res.json({profileName:req.session.profileName})
+    if(error){
+        console.error(`Failed to fetch user name, ${error}`)
+    }
+
+    res.json({profileName:data.full_name})
 }
 
 export function serveHomePage(req, res){
