@@ -3,6 +3,7 @@ import express from 'express'
 import { apiRouter, authRouter, homeRouter } from './routes.js'
 import cors from 'cors'
 import session from 'express-session'
+import cookieParser from "cookie-parser"
 
 
 const PORT = 8000
@@ -11,6 +12,7 @@ const app = express()
 
 app.use(cors())
 app.use(express.json())
+app.use(cookieParser())
 app.use(session({
     secret:process.env.SESSION_SECRET,
     resave:false,

@@ -90,43 +90,47 @@ export async function registerUser(req, res){
 
 export async function loginUser(req, res){
 
-    let {userName, password} = req.body
+    let {email, password} = req.body
 
-    if(!userName || !password){
+    if(!email || !password){
         return res.status(400).json({message:"All fields are required"})
     }
 
-    userName = userName.trim()
+    email = email.trim()
+
+    if(!validator.isEmail(email)){
+        return res.status(400).json({message:"Email not valid"})
+    }
+
 
     try{
         const supabaseClient = await connectDb()
-        const {data, error} = await supabaseClient.from('users')
-                                            .select('*')
-                                            .eq("user_name", userName)
-                                            .single();
+        const {data, error} = await supabaseClient.auth.signInWithPassword({
+            email:email,
+            password:password
+        })
+                                         
         // console.log(data, error)
 
         if(error){
-            console.error(`User not exist in database, error: ${error}`)
-            return res.status(500).json({message:"Invalid user name or password."})
+            console.error(`Supabase error, error: ${error.message}`)
+            return res.status(401).json({message:"Invalid user name or password."})
         }
 
-        const isValidPassword = await bcrypt.compare(password, data.password)
-        
-        if(!isValidPassword){
-            return res.status(401).json({message:"Invalid password."})
-        }
-        req.session.userId = data.id
-        req.session.profileName = data.user_name
-
-        // console.log("Login session:", req.session)
-
-        res.json({message:"Logging in.."})
+        // console.log(data)
+        const access_token = data.session.access_token
+        res.cookie("access_token", access_token, {
+            httpOnly:true,
+            secure:false,
+            sameSite:"lax",
+            maxAge:60*60*1000})
+  
+        return res.json({message:"Loging in"})
             
     }
     catch(error){
-        console.error(`Authentication failed, please try again, error: ${error.message}`)
-
+        console.error(`Authentication failed, error: ${error.message}`)
+        return res.status(500).json({message:"Internal server error"})
     }
 
 }
@@ -139,6 +143,7 @@ export function currentUser(req, res){
 
 export function serveHomePage(req, res){
     res.sendFile(path.join(process.cwd(), "pages", "home.html"))
+    
 }
 
 export function logoutUser(req, res){

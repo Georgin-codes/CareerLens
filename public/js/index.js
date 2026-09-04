@@ -20,14 +20,14 @@ form.addEventListener('submit', async (e)=>{
     title.style.color = "#AFC0A3"
     description.style.color = "#C8D0C5"
 
-    const userName = document.getElementById('user-name').value.trim()
+    const email = document.getElementById('email').value.trim()
     const password = document.getElementById('password').value
 
     const response = await fetch('/api/auth/login', {
                     method:"POST",
                     headers:{"Content-Type":"application/json"},
                     body:JSON.stringify({
-                        userName:userName,
+                        email:email,
                         password:password
                     })
                 })
