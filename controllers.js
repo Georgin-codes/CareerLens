@@ -47,7 +47,7 @@ export async function getUserInfo(req, res){
 
 export async function registerUser(req, res){
     let {name, email, password} = req.body
-    // console.log(name, email, userName, password)
+  
     if(!name || !email || !password){
         return res.status(400).json({message:"All fields are required"})
     }
@@ -55,7 +55,7 @@ export async function registerUser(req, res){
     name = name.trim()
     email = email.trim().toLowerCase()
 
-    // console.log("email:", email)
+  
     
     if(!validator.isEmail(email)){
         return res.status(400).json({message:"Please provide a valid email"})
@@ -73,15 +73,29 @@ export async function registerUser(req, res){
         })
 
         if(error){
-            throw error
+            console.error(`Signup failed, ${error}`)
+            return res.status(500).json({message:"Registration Failed"})
         }
+        // console.log(data)
+        const userId = data.user.id
 
+        const {data:profileData,error:profileError} = await supabaseClient.from("profiles").insert({
+            user_id : userId,
+            full_name: name
+        }).select()
+
+      
+        if(profileError){
+            console.error(`Profile creation unsuccessfull, ${profileError}`)
+            return res.status(500).json({message:"Registration Failed"})
+        }
+        
         res.json({message:"Check your email to verify your account and continue"})
 
     }
     catch(error){
-        console.error(`Registration failed, error: ${error}`)
-        res.status(500).json({message:"Registration Failed, please try again"})
+        console.error(`Registration failed, error: ${error.message}`)
+        return res.status(500).json({message:"Registration Failed"})
     }
    
 
@@ -137,7 +151,10 @@ export async function loginUser(req, res){
 
 export function currentUser(req, res){
 
-    // console.log("Current user session:", req.session)
+    // console.log("Current user session:", req.session)\
+//    console.log(req.user)
+    const userId = req.user.id
+
     res.json({profileName:req.session.profileName})
 }
 
