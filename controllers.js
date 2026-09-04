@@ -1,7 +1,6 @@
 import {PDFParse} from 'pdf-parse'
 import { getAiResponse } from './getAiResponse.js'
 import validator from 'validator'
-import bcrypt from 'bcryptjs'
 import { connectDb } from './db/db.js'
 import path from "path"
 
@@ -47,15 +46,14 @@ export async function getUserInfo(req, res){
 
 
 export async function registerUser(req, res){
-    let {name, email, userName, password} = req.body
+    let {name, email, password} = req.body
     // console.log(name, email, userName, password)
-    if(!name || !email || !userName || !password){
+    if(!name || !email || !password){
         return res.status(400).json({message:"All fields are required"})
     }
 
     name = name.trim()
     email = email.trim().toLowerCase()
-    userName = userName.trim()
 
     // console.log("email:", email)
     
@@ -63,59 +61,27 @@ export async function registerUser(req, res){
         return res.status(400).json({message:"Please provide a valid email"})
     }
 
-    const pattern = /^[a-zA-Z0-9_-]{3,20}$/
-    if(!pattern.test(userName)){
-        return res.status(400).json({message:"Username must be 3–20 characters and contain only letters, numbers, underscores (_), or hyphens (-)."})
+    if(password.length<8){
+        return res.status(400).json({message:"Password must be atleast 8 characters"})
     }
-
+  
     try{
         const supabaseClient = await connectDb()
-        const {data, error} = await supabaseClient.from('users')
-                        .select('*')
-                        .or(`user_name.eq.${userName}, email.eq.${email}`);
+        const {data, error} = await supabaseClient.auth.signUp({
+            email:email,
+            password:password
+        })
 
-        //if the database return error object
         if(error){
-            console.error(`Database error, error: ${error}`)
-            return res.status(500).json({message:"Authentication failed"})
+            throw error
         }
 
-        //check for existing email or username
-        if(data.length!==0){
-            return res.status(400).json({message:"User name or Email already exist."})
-        }
-
-        //password hashing
-        const hashedPassword = await bcrypt.hash(password, 10)
-
-        //insert user to database
-        const { data:dataObj, error:errorObj } = await supabaseClient
-                                .from("users")
-                                .insert({
-                                    name: name,
-                                    email: email,
-                                    user_name: userName,
-                                    password: hashedPassword
-                                })
-                                .select("id, name, email, user_name, created_at")
-                                .single();
-        
-        //if the database return error object
-        if(errorObj){
-            console.error(`Database insert failed, error: ${errorObj}`)
-            return res.status(500).json({message:"Registration Failed"})
-        }
-
-        res.json({message:"User registered successfully, please login with your credentials."})
-
-        // console.log("data:", dataObj)
-        // console.log("error:", errorObj)
-        
+        res.json({message:"Check your email to verify your account and continue"})
 
     }
     catch(error){
         console.error(`Registration failed, error: ${error}`)
-        res.status(500).json({meassage:"Registration Failed, please try again"})
+        res.status(500).json({message:"Registration Failed, please try again"})
     }
    
 
