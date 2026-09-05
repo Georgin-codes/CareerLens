@@ -168,14 +168,29 @@ export async function logoutUser(req, res){
 
     try{
         const access_token = req.cookies.access_token
-        const supabaseClient = await connectDb(access_token)
-        const {error} = await supabaseClient.auth.signOut({scope:'local'})
+        //checking for access token in cookie
+        if(access_token){
+            const supabaseClient = await connectDb(access_token)
+            const {error} = await supabaseClient.auth.signOut({scope:'local'})
 
-        if(error){
-            console.error(`Logout failed, error:${error}`)
-            return res.status(500).json({message:"Error in logging out"})
+            //if the access token has already expired
+            if(error){
+                console.error(`Supabase logout failed, redirects to login, error:${error}`)
+            }
+
+            //clearing cookies if access_token has already expired or not
+            res.clearCookie("access_token", {
+                httpOnly:true, 
+                secure:false,
+                sameSite:"lax"
+            })
         }
 
+        return res.json({message:"Logged out"})
+    }
+
+    catch(error){
+        console.error(`Supabase logout failed or cookie expired, error${error.message}`)
         res.clearCookie("access_token", {
             httpOnly:true, 
             secure:false,
@@ -183,11 +198,6 @@ export async function logoutUser(req, res){
         })
 
         return res.json({message:"Logged out"})
-
-    }
-    catch(error){
-        console.error(`Logout failed, error${error.message}`)
-        return res.status(500).json({message:"Error in logging out"})
     }
    
   
