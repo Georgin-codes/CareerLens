@@ -164,9 +164,31 @@ export function serveHomePage(req, res){
     
 }
 
-export function logoutUser(req, res){
-    req.session.destroy(()=>{
-        res.json({message:"Logged out"})
-    })
+export async function logoutUser(req, res){
 
+    try{
+        const access_token = req.cookies.access_token
+        const supabaseClient = await connectDb(access_token)
+        const {error} = await supabaseClient.auth.signOut({scope:'local'})
+
+        if(error){
+            console.error(`Logout failed, error:${error}`)
+            return res.status(500).json({message:"Error in logging out"})
+        }
+
+        res.clearCookie("access_token", {
+            httpOnly:true, 
+            secure:false,
+            sameSite:"lax"
+        })
+
+        return res.json({message:"Logged out"})
+
+    }
+    catch(error){
+        console.error(`Logout failed, error${error.message}`)
+        return res.status(500).json({message:"Error in logging out"})
+    }
+   
+  
 }

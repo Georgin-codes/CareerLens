@@ -113,9 +113,21 @@ async function analyze(e){
 }
 
 logoutBtn.addEventListener("click", async ()=>{
-    const res = await fetch('/api/auth/logout')
-    window.location.href = '/'
 
+    try{
+        const res = await fetch('/api/auth/logout')
+
+        if(!res.ok){
+            console.error("Logout failed")
+            return
+        }
+
+        window.location.href = '/'
+
+    }
+    catch(error){
+        console.error(`Logout request failed, {error}`)
+    }
 })
 
 getProfileName()
