@@ -16,7 +16,8 @@ authRouter.post('/auth/register', registerUser)
 authRouter.post('/auth/login', loginUser)
 authRouter.get('/auth/me', requireAuth, currentUser)
 homeRouter.get('/home', requireAuth, serveHomePage)
-authRouter.get('/auth/logout',logoutUser)
+authRouter.get('/auth/logout',requireAuth, logoutUser)
+
 
 
 

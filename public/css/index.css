@@ -49,6 +49,11 @@ input{
         background-color:  #AFC0A3;
     }
 
+#forgot-password:disabled{
+    color:grey;
+
+}
+
 h1{
     color: #55a630;
     text-align: center;
@@ -67,11 +72,32 @@ a{
 #link{
     margin:0 auto;
     font-size: 0.85rem;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .link-para a{
     color:#55a630;
 }
+
+.link-para{
+    margin-bottom:0;
+}
+
+.forgot-password a{
+    color:#55a630;
+    /* text-align: center; */
+
+}
+
+#forgot-password{
+    background-color: transparent;
+    border:none;
+    color:white;
+    font-family: "Montserrat", sans-serif;
+}
+
 
 .authentication-message{
     background-color: #1c1c1c;
@@ -82,6 +108,7 @@ a{
     justify-content: center;
     align-items: center;
     font-size: 0.85em;
+    padding:2.5em;
   
 
     position: fixed;
@@ -112,6 +139,7 @@ a{
 .authentication-message p{
     padding-left:0;
 }
+
 
 @media(min-width:420px){
     header{
@@ -268,8 +296,8 @@ a{
     }
 
     #link{
-        font-size: 1.5rem;
-        margin:7em auto 0;  
+        font-size: 1rem;
+        margin:10em auto 0;  
     }
 
     .form-container{
