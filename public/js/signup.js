@@ -41,7 +41,6 @@ form.addEventListener('submit', async (e)=>{
     }
    catch(error){
     console.error(`Error fetching data, ${error}`)
-
    }
 
 })

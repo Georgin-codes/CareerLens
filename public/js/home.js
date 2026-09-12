@@ -1,9 +1,6 @@
 import { marked } from "https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js"
 import DOMPurify from "https://cdn.jsdelivr.net/npm/dompurify/+esm"
 
-
-
-
 const form = document.getElementById('form')
 const file = document.getElementById('file')
 const textArea = document.getElementById('text-box')
@@ -26,7 +23,6 @@ async function getProfileName(){
              guestName.textContent = data.profileName
         }
        
-        
     }
     catch(error){
         console.error(`Error fetching profile name, error: ${error.message}`)
@@ -52,9 +48,6 @@ async function analyze(e){
     const resume = file.files[0]
 
     if(resume && jobDescription){
-
-        // console.log(resume)
-        // console.log(jobDescription)
 
         const formData = new FormData()
         formData.append("resume", resume)
@@ -113,8 +106,6 @@ async function analyze(e){
                 // })
 
             }
-
-            // console.log(cleanHtml)
 
         }
         catch(err){

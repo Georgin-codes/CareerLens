@@ -7,7 +7,6 @@ const closeBtn = document.getElementById("close-btn")
 const btn =document.getElementById("btn")
 const title = document.getElementById('title')
 const description = document.getElementById('description')
-
 const supabaseClient = createClient("https://hxfspbblyopratpxwshz.supabase.co", "sb_publishable_DGkctytULgro0_ORki-hsg_OeR56hS8")
 
 

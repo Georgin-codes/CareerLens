@@ -1,5 +1,5 @@
   import { client } from './openAI.js'
-  import { createChunk } from './textSplitter.js'
+//   import { createChunk } from '../textSplitter.js'
 
 
   export async function getAiResponse(req, res, data1, data2){
@@ -80,12 +80,6 @@
             stream:true
         })
 
-        // const stream = await client.chat.completions.create({
-        // model:process.env.OPENROUTER_MODEL,
-        // messages:prompt,
-        // stream:true
-        // })
-
         for await(let event of stream){
             if(event.type === "response.output_text.delta"){
                 res.write(event.delta)
@@ -94,8 +88,9 @@
 
         return
     }
-    catch(err){
-        console.error({error:`Something went wrong with the AI, ${err}`})
+    catch(error){
+        console.error({error:`Something went wrong with the AI, ${error.message}`})
+        throw error
     }
 
 }

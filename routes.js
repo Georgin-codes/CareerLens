@@ -1,7 +1,7 @@
 import { getUserInfo, registerUser, loginUser, currentUser, serveHomePage, logoutUser } from './controllers.js'
 import express from 'express'
 import multer from 'multer'
-import { client } from './openAI.js'
+import { client } from './openai/openAI.js'
 import { requireAuth, ipLimiter, accountLimiter, validateUserInput } from './middleware/middleware.js'
 
 

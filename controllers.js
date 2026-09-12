@@ -1,5 +1,5 @@
 import {PDFParse} from 'pdf-parse'
-import { getAiResponse } from './getAiResponse.js'
+import { getAiResponse } from './openai/getAiResponse.js'
 import path from "path"
 import { validateCredentials } from './helper.js'
 import { signUpUser, signInUser, logOut } from './services/authServices.js'
@@ -30,8 +30,8 @@ export async function getUserInfo(req, res){
         res.end()
     }
     catch(error){
-        console.error({error:`PDF not parsed successfully, ${error}`})
-        return res.json({message:`PDF not parsed successfully, ${error}`})
+        console.error({error:`Something went wrong, ${error.message}`})
+        return res.json({message:`Something went wrong, ${error.message}`})
     }
 
 }
@@ -51,10 +51,10 @@ export async function registerUser(req, res){
         return res.status(400).json({message:"Password must be atleast 8 characters"})
     }
 
-    name = name.trim().toLowerCase()
     if(!name){
         return res.status(400).json({message:"Please provide a name"})
     }
+    name = name.trim().toLowerCase()
   
     try{
         const data = await signUpUser(email, password)
@@ -89,7 +89,6 @@ export async function loginUser(req, res){
     const result = validateCredentials(email, password)
 
     try{
-        const supabaseClient = connectDb()
         const data = await signInUser(email, password)
      
         if(data.error){
@@ -119,7 +118,8 @@ export async function currentUser(req, res){
     const data = await getName(userId)
 
     if(data.error){
-        return console.error(data.error)
+        console.error(data.error)
+        return res.status(404).json({profileName:"Guest"})
     }
 
     res.json({profileName:data.full_name})
