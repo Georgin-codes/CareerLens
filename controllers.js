@@ -6,19 +6,10 @@ import path from "path"
 
 
 export async function getUserInfo(req, res){
+
+    const jobDesc = req.body.jobDesc
     
-    // console.log(req.file)
-    // console.log(req.body.jobDesc)
-
-    // prasing the pdf
     try{
-        const jobDesc = req.body.jobDesc
-
-        //checking whether the user uploads the pdf or not
-        if(!req.file){
-            return res.status(400).json({error:"Resume pdf is required"})
-        }
-
         const parser = new PDFParse({data:req.file.buffer})
         const result = await parser.getText()
         await parser.destroy()
@@ -26,9 +17,8 @@ export async function getUserInfo(req, res){
         const pdfData = result.text
 
         //data type validation
-        if(typeof jobDesc !=="string" || typeof pdfData !=="string" || !jobDesc.trim() || !pdfData.trim()){
-            return res.status(400).json({message:"Valid resume and job description are required"})
-
+        if(typeof pdfData !=="string" || !pdfData.trim()){
+            return res.status(400).json({message:"Invalid resume"})
         }
 
         res.setHeader("Content-Type", "text/plain")

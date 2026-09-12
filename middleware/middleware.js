@@ -58,3 +58,27 @@ export const accountLimiter = rateLimit({
         res.status(429).json({message:"Account rate limit reached, Please try again tomorrow."})
     }
 })
+
+export function validateUserInput(req, res, next){
+    const jobDesc = req.body.jobDesc
+    
+    //checking whether the user uploads the pdf or not
+    if(!req.file){
+        return res.status(400).json({message:"Resume pdf is required"})
+    }
+
+    if(typeof jobDesc !=="string" || !jobDesc.trim()){
+        return res.status(400).json({message:"Job description is not vbalid"})
+    }
+
+    if(jobDesc.length > 5000){
+        return res.status(400).json({message:"Job description must be 5000 characters or less"})
+    }
+
+    if(jobDesc.length < 100){
+        return res.status(400).json({message:"Job description is too short"})
+    }
+
+    next()
+
+}
