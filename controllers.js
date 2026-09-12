@@ -22,6 +22,10 @@ export async function getUserInfo(req, res){
             return res.status(400).json({message:"Invalid resume"})
         }
 
+        if(pdfData.length > 15000){
+            return res.status(400).json({message:"Please upload a shorter resume"})
+        }
+
         res.setHeader("Content-Type", "text/plain")
         res.setHeader("Cache-Control", "no-cache")
         res.setHeader("Connection", "keep-alive")
