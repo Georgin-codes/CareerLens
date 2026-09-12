@@ -1,8 +1,9 @@
 import {PDFParse} from 'pdf-parse'
 import { getAiResponse } from './getAiResponse.js'
-import { connectDb } from './db/db.js'
 import path from "path"
 import { validateCredentials } from './helper.js'
+import { signUpUser, signInUser, logOut } from './services/authServices.js'
+import { insertUser, getName } from './services/profileServices.js'
 
 
 export async function getUserInfo(req, res){
@@ -56,27 +57,18 @@ export async function registerUser(req, res){
     }
   
     try{
-        const supabaseClient = connectDb()
-        const {data, error} = await supabaseClient.auth.signUp({
-            email:email,
-            password:password
-        })
+        const data = await signUpUser(email, password)
 
-        if(error){
-            console.error(`Signup failed, ${error}`)
-            return res.status(500).json({message:"Registration Failed"})
+        if(data.error){
+            return res.status(500).json({message:data.error})
         }
-        // console.log(data)
+      
         const userId = data.user.id
 
-        const {data:profileData,error:profileError} = await supabaseClient.from("profiles").insert({
-            user_id : userId,
-            full_name: name
-                }).select()
+        const profileData = await insertUser(userId, name)
 
-        if(profileError){
-            console.error(`Profile creation unsuccessfull, ${profileError.message}`)
-            return res.status(500).json({message:"Registration Failed"})
+        if(profileData.error){
+            return res.status(500).json({message:profileData.error})
         }
 
         return res.json({message:"Check your email to verify your account and continue"})
@@ -98,19 +90,12 @@ export async function loginUser(req, res){
 
     try{
         const supabaseClient = connectDb()
-        const {data, error} = await supabaseClient.auth.signInWithPassword({
-            email:email,
-            password:password
-        })
-                                         
-        // console.log(data, error)
-
-        if(error){
-            console.error(`Supabase error, error: ${error.message}`)
-            return res.status(401).json({message:"Invalid user name or password."})
+        const data = await signInUser(email, password)
+     
+        if(data.error){
+            return res.status(401).json({message:data.error})
         }
 
-        // console.log(data)
         const access_token = data.session.access_token
         res.cookie("access_token", access_token, {
             httpOnly:true,
@@ -131,33 +116,35 @@ export async function loginUser(req, res){
 export async function currentUser(req, res){
 
     const userId = req.user.id
-    const supabaseClient = connectDb()
-    const {data, error} = await supabaseClient.from("profiles").select("full_name").eq("user_id", userId).single()
+    const data = await getName(userId)
 
-    if(error){
-        console.error(`Failed to fetch user name, ${error}`)
+    if(data.error){
+        return console.error(data.error)
     }
 
     res.json({profileName:data.full_name})
 }
 
+
+
 export function serveHomePage(req, res){
     res.sendFile(path.join(process.cwd(), "pages", "home.html"))
-    
 }
+
+
 
 export async function logoutUser(req, res){
 
     try{
         const access_token = req.cookies.access_token
+
         //checking for access token in cookie
         if(access_token){
-            const supabaseClient = connectDb(access_token)
-            const {error} = await supabaseClient.auth.signOut({scope:'local'})
+            const data = await logOut(access_token)
 
             //if the access token has already expired
-            if(error){
-                console.error(`Supabase logout failed, redirects to login, error:${error}`)
+            if(data.error){
+                console.error(data.error)
             }
 
             //clearing cookies if access_token has already expired or not
@@ -181,6 +168,4 @@ export async function logoutUser(req, res){
 
         return res.json({message:"Logged out"})
     }
-   
-  
 }
