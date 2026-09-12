@@ -23,6 +23,7 @@ export async function requireAuth(req, res, next){
 
         req.user = data.user
 
+
         next()
 
     }
@@ -36,9 +37,9 @@ export async function requireAuth(req, res, next){
 
 //rate limit per IP
 
-export const limiter = rateLimit({
+export const ipLimiter = rateLimit({
     windowMs: 24 * 60 * 60 * 1000,
-    limit: 3,
+    limit: 6,
     standardHeaders: 'draft-8', 
     legacyHeaders: false, 
     ipv6Subnet: 56,
@@ -47,3 +48,13 @@ export const limiter = rateLimit({
     }
 })
 
+export const accountLimiter = rateLimit({
+    windowMs: 24 * 60 * 60 * 1000,
+    limit: 3,
+    keyGenerator:(req)=>{return req.user.id},
+    standardHeaders: 'draft-8', 
+    legacyHeaders: false, 
+    handler:(req, res)=>{
+        res.status(429).json({message:"Account rate limit reached, Please try again tomorrow."})
+    }
+})
