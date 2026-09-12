@@ -1,4 +1,5 @@
 import { connectDb } from '../db/db.js'
+import { rateLimit } from 'express-rate-limit'
 
 export async function requireAuth(req, res, next){
 
@@ -32,3 +33,17 @@ export async function requireAuth(req, res, next){
      
     
 }
+
+//rate limit per IP
+
+export const limiter = rateLimit({
+    windowMs: 24 * 60 * 60 * 1000,
+    limit: 3,
+    standardHeaders: 'draft-8', 
+    legacyHeaders: false, 
+    ipv6Subnet: 56,
+    handler:(req, res)=>{
+        res.status(429).json({message:"Rate limit reached, Please try again tomorrow."})
+    }
+})
+

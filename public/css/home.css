@@ -84,7 +84,7 @@ input, .text-label, .analyze-btn, .text{
     line-height: 1.5;
 }
 
-#user{
+.user{
     margin-left: 1em;
 }
 
@@ -106,6 +106,21 @@ input, .text-label, .analyze-btn, .text{
     margin:auto;
 
    
+}
+
+.message-box button{
+    background-color: transparent;
+    color:lightgrey;
+    font-weight: bold;
+    width:25px;
+    height: 25px;
+    border-radius: 50%;
+    border:1px solid grey;
+    position:absolute;
+    top:0;
+    right:0;
+    margin: 1em 1em 0 0;
+    cursor:pointer;
 }
 
 @media(min-width:450px){

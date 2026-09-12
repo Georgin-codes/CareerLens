@@ -11,6 +11,7 @@ const responseContainer  = document.getElementById("response")
 const guestName = document.getElementById('user')
 const btn = document.getElementById('analyze-btn')
 const messageBox = document.getElementById('message-box') 
+const closeBtn = document.getElementById("close-btn")
 const message = document.getElementById("message")
 const logoutBtn = document.getElementById("logout-btn")
 
@@ -22,7 +23,7 @@ async function getProfileName(){
         const data = await res.json()
 
         if(data.profileName){
-             guestName.innerHTML = `Welcome, <b>${data.profileName}!</b>`
+             guestName.textContent = data.profileName
         }
        
         
@@ -38,10 +39,11 @@ form.addEventListener('submit', analyze)
 
 async function analyze(e){
     e.preventDefault()
-
+    closeBtn.style.display = "none"
     messageBox.style.display = "flex"
     btn.disabled = true
     form.style.color = "#C8D0C5"
+    responseContainer.style.color = "#C8D0C5"
 
     
     // description.style.color = "#C8D0C5"
@@ -63,15 +65,25 @@ async function analyze(e){
             method: "POST",
             body:formData})
 
+            //if the extracted content type of pdf or job description are not a string or invalid content
+            if(!response.ok){
+                const data = await response.json()
+                closeBtn.style.display = "block"
+                messageBox.style.display = "flex"
+                btn.disabled = true
+                form.style.color = "#C8D0C5"
+                responseContainer.style.color = "#C8D0C5"
+                message.textContent = data.message
+                return 
+            }
+
+
             const reader = response.body.getReader()
             const decoder = new TextDecoder()
 
             let fullResponse = ""
             
-            //if the extracted content type of pdf or job description are not a string or invalid content
-            if(!response.ok){
-                message.textContent = response.message
-            }
+            
 
             while(true){
                 const{value, done} = await reader.read()
@@ -90,6 +102,8 @@ async function analyze(e){
                 if(messageBox.style.display==="flex"){
                     messageBox.style.display = "none"
                     form.style.color = "white"
+                    responseContainer.style.color = "white"
+
                 }
                 responseContainer.innerHTML = cleanHtml
 
@@ -121,6 +135,13 @@ logoutBtn.addEventListener("click", async ()=>{
     catch(error){
         console.error(`Logout request failed, ${error}`)
     }
+})
+
+closeBtn.addEventListener("click", ()=>{
+    messageBox.style.display = "none"
+    btn.disabled = false
+    form.style.color = "white"
+    responseContainer.style.color = "white"
 })
 
 getProfileName()

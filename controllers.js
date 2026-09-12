@@ -40,6 +40,7 @@ export async function getUserInfo(req, res){
     }
     catch(error){
         console.error({error:`PDF not parsed successfully, ${error}`})
+        return res.json({message:`PDF not parsed successfully, ${error}`})
     }
 
 }
@@ -84,7 +85,7 @@ export async function registerUser(req, res){
                 }).select()
 
         if(profileError){
-            console.error(`Profile creation unsuccessfull, ${profileError}`)
+            console.error(`Profile creation unsuccessfull, ${profileError.message}`)
             return res.status(500).json({message:"Registration Failed"})
         }
 
