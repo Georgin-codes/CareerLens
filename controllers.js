@@ -1,8 +1,8 @@
 import {PDFParse} from 'pdf-parse'
 import { getAiResponse } from './getAiResponse.js'
-import validator from 'validator'
 import { connectDb } from './db/db.js'
 import path from "path"
+import { validateCredentials } from './helper.js'
 
 
 export async function getUserInfo(req, res){
@@ -37,26 +37,26 @@ export async function getUserInfo(req, res){
 
 
 export async function registerUser(req, res){
-    let {name, email, password} = req.body
-  
-    if(!name || !email || !password){
-        return res.status(400).json({message:"All fields are required"})
-    }
+   
+    let {email, password, name} = req.body
 
-    name = name.trim()
-    email = email.trim().toLowerCase()
+    const result = validateCredentials(email, password)
 
-
-    if(!validator.isEmail(email)){
-        return res.status(400).json({message:"Please provide a valid email"})
+    if(result.error){
+        return res.status(400).json({message:result.error})
     }
 
     if(password.length<8){
         return res.status(400).json({message:"Password must be atleast 8 characters"})
     }
+
+    name = name.trim().toLowerCase()
+    if(!name){
+        return res.status(400).json({message:"Please provide a name"})
+    }
   
     try{
-        const supabaseClient = await connectDb()
+        const supabaseClient = connectDb()
         const {data, error} = await supabaseClient.auth.signUp({
             email:email,
             password:password
@@ -94,19 +94,10 @@ export async function loginUser(req, res){
 
     let {email, password} = req.body
 
-    if(!email || !password){
-        return res.status(400).json({message:"All fields are required"})
-    }
-
-    email = email.trim()
-
-    if(!validator.isEmail(email)){
-        return res.status(400).json({message:"Email not valid"})
-    }
-
+    const result = validateCredentials(email, password)
 
     try{
-        const supabaseClient = await connectDb()
+        const supabaseClient = connectDb()
         const {data, error} = await supabaseClient.auth.signInWithPassword({
             email:email,
             password:password
@@ -140,7 +131,7 @@ export async function loginUser(req, res){
 export async function currentUser(req, res){
 
     const userId = req.user.id
-    const supabaseClient = await connectDb()
+    const supabaseClient = connectDb()
     const {data, error} = await supabaseClient.from("profiles").select("full_name").eq("user_id", userId).single()
 
     if(error){
@@ -161,7 +152,7 @@ export async function logoutUser(req, res){
         const access_token = req.cookies.access_token
         //checking for access token in cookie
         if(access_token){
-            const supabaseClient = await connectDb(access_token)
+            const supabaseClient = connectDb(access_token)
             const {error} = await supabaseClient.auth.signOut({scope:'local'})
 
             //if the access token has already expired

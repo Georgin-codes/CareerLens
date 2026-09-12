@@ -15,6 +15,7 @@ export function connectDb(access_token){
     }
     catch(error){
         console.error(`Database connection failed, error: ${error}`)
+        throw error
     }
 
 }
