@@ -102,7 +102,7 @@ export async function loginUser(req, res){
         const access_token = data.session.access_token
         res.cookie("access_token", access_token, {
             httpOnly:true,
-            secure:false,
+            secure:process.env.NODE_ENV === "production",
             sameSite:"lax",
             maxAge:60*60*1000})
   
@@ -154,7 +154,7 @@ export async function logoutUser(req, res){
             //clearing cookies if access_token has already expired or not
             res.clearCookie("access_token", {
                 httpOnly:true, 
-                secure:false,
+                secure:process.env.NODE_ENV === "production",
                 sameSite:"lax"
             })
         }
@@ -166,7 +166,7 @@ export async function logoutUser(req, res){
         console.error(`Supabase logout failed or cookie expired, error${error.message}`)
         res.clearCookie("access_token", {
             httpOnly:true, 
-            secure:false,
+            secure:process.env.NODE_ENV === "production",
             sameSite:"lax"
         })
 
