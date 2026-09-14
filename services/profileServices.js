@@ -30,7 +30,9 @@ export async function getName(userId){
         const {data, error} = await supabaseClient.from("profiles").select("full_name").eq("user_id", userId).single()
 
         if(error){
-            return {error:`Failed to fetch profile name, ${error}`}
+            // return {error:`Failed to fetch profile name, ${error}`}
+            console.error("Supabase error: error")
+            return {error}
         }
         return data
 
