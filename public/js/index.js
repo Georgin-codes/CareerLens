@@ -28,25 +28,34 @@ form.addEventListener('submit', async (e)=>{
     const email = document.getElementById('email').value.trim()
     const password = document.getElementById('password').value
 
-    const response = await fetch('/api/auth/login', {
+    try{
+        const response = await fetch('/api/auth/login', {
                     method:"POST",
                     headers:{"Content-Type":"application/json"},
                     body:JSON.stringify({
                         email:email,
                         password:password
                     })
-                })
-    const data = await response.json()
-    apiResponse.textContent = data.message
+        })
 
-     if(response.ok){
-            setTimeout(()=>{ 
-                apiResponseCont.style.display = "none"
-                submitBtn.disabled = false
-                title.style.color = "#55a630"
-                description.style.color = "white"
-                window.location.href = '/api/home'}, 2000
+        const data = await response.json()
+        apiResponse.textContent = data.message
+
+        if(response.ok){
+                setTimeout(()=>{ 
+                    apiResponseCont.style.display = "none"
+                    submitBtn.disabled = false
+                    title.style.color = "#55a630"
+                    description.style.color = "white"
+                    window.location.href = '/api/home'}, 2000
         )}
+
+    }
+    catch(error){
+        console.error(`Error logging in, ${error.message}`)
+        apiResponse.textContent = "Error logging in"
+    }
+    
 })
 
 
@@ -62,13 +71,11 @@ forgotPassword.addEventListener("click", async ()=>{
     const email = document.getElementById('email').value.trim()
     if(!email || !email.includes('@')){
         console.error("Plasse provide a valid email")
-        return apiResponse.textContent = "Please provide a valid email"
-                                          
+        return apiResponse.textContent = "Please provide a valid email"                        
     }
   
-
    try{
-        const {data, error} = await supabaseClient.auth.resetPasswordForEmail(email, {redirectTo:'http://localhost:8000/forgot-password.html'})
+        const {data, error} = await supabaseClient.auth.resetPasswordForEmail(email, {redirectTo:'http://careerlens.online/forgot-password.html'})
 
         if(error){
             console.error(`Unable to verify or reset password, ${error}`)
