@@ -69,7 +69,9 @@ export async function registerUser(req, res){
       
         const userId = data.user.id
 
-        const profileData = await insertUser(userId, name)
+        const accessToken = data.session.access_token
+
+        const profileData = await insertUser(userId, accessToken, name)
 
         if(profileData.error){
             return res.status(500).json({message:profileData.error})

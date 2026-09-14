@@ -75,7 +75,7 @@ forgotPassword.addEventListener("click", async ()=>{
     }
   
    try{
-        const {data, error} = await supabaseClient.auth.resetPasswordForEmail(email, {redirectTo:'http://careerlens.online/forgot-password.html'})
+        const {data, error} = await supabaseClient.auth.resetPasswordForEmail(email, {redirectTo:'https://careerlens.online/forgot-password.html'})
 
         if(error){
             console.error(`Unable to verify or reset password, ${error}`)

@@ -1,9 +1,9 @@
 import { connectDb } from '../db/db.js'
 
-export async function insertUser(userId, name){
+export async function insertUser(userId, accessToken, name){
 
     try{
-        const supabaseClient = connectDb()
+        const supabaseClient = connectDb(accessToken)
         const {data:profileData,error:profileError} = await supabaseClient.from("profiles").insert({
             user_id : userId,
             full_name: name
