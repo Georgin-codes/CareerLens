@@ -12,7 +12,7 @@ export async function requireAuth(req, res, next){
             return res.redirect('/')
         }
 
-        const supabaseClient = await connectDb()
+        const supabaseClient = connectDb(access_token)
 
         const {data, error} = await supabaseClient.auth.getUser(access_token)
 

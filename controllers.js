@@ -118,10 +118,8 @@ export async function loginUser(req, res){
 
 export async function currentUser(req, res){
 
-    console.log("Authenticated user ID:", req.user.id)
-
     const userId = req.user.id
-    const data = await getName(userId)
+    const data = await getName(userId, req.cookies.access_token)
 
     if(data.error){
         console.error(data.error)

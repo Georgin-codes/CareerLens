@@ -23,16 +23,14 @@ export async function insertUser(userId, name){
 }
 
 
-export async function getName(userId){
+export async function getName(userId, access_token){
 
     try{
-        const supabaseClient = connectDb()
+        const supabaseClient = connectDb(access_token)
         const {data, error} = await supabaseClient.from("profiles").select("full_name").eq("user_id", userId).single()
 
         if(error){
-            // return {error:`Failed to fetch profile name, ${error}`}
-            console.error("Supabase error: error")
-            return {error}
+            return {error:`Failed to fetch profile name, ${error.message}`}
         }
         return data
 
