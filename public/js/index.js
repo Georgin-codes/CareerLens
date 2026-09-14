@@ -20,7 +20,6 @@ form.addEventListener('submit', async (e)=>{
     e.preventDefault()
 
     apiResponseCont.style.display = "flex"
-
     submitBtn.disabled = true
     title.style.color = "#AFC0A3"
     description.style.color = "#C8D0C5"
@@ -39,16 +38,18 @@ form.addEventListener('submit', async (e)=>{
         })
 
         const data = await response.json()
-        apiResponse.textContent = data.message
-
+        
         if(response.ok){
-                setTimeout(()=>{ 
-                    apiResponseCont.style.display = "none"
-                    submitBtn.disabled = false
-                    title.style.color = "#55a630"
-                    description.style.color = "white"
-                    window.location.href = '/api/home'}, 2000
+            apiResponseCont.textContent =  data.message
+            setTimeout(()=>{ 
+                apiResponseCont.style.display = "none"
+                submitBtn.disabled = false
+                title.style.color = "#55a630"
+                description.style.color = "white"
+                window.location.href = '/api/home'}, 2000
         )}
+
+        apiResponse.textContent = data.message
 
     }
     catch(error){
