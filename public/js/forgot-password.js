@@ -44,7 +44,7 @@ form.addEventListener("submit", async (e)=>{
             console.error(`Unable to reset password, ${error}`)
             return message.textContent =  "Unable to reset password"
         }
-        message.textContent =  "Password has successfully reset"
+        message.textContent = "Password has successfully reset"
         setTimeout(()=>{
             window.location.href = "/"}, 3000)
         
@@ -61,5 +61,6 @@ closeBtn.addEventListener("click", ()=>{
     title.style.color = "#55a630"
     description.style.color = "white"
     messageBox.style.display = "none"
+    message.textContent = "Please wait"
 
 })

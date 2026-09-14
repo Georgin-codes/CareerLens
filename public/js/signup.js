@@ -47,6 +47,7 @@ form.addEventListener('submit', async (e)=>{
 
 closeBtn.addEventListener("click", ()=>{
     apiResponseCont.style.display = "none"
+    apiResponse.textContent = "Please wait..."
     submitBtn.disabled = false
     title.style.color = "#55a630"
     description.style.color = "white"

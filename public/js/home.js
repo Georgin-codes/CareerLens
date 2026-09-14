@@ -15,7 +15,6 @@ const logoutBtn = document.getElementById("logout-btn")
 
 async function getProfileName(){
     try{
-        
         const res = await fetch('/api/auth/me')
         const data = await res.json()
 
@@ -40,9 +39,6 @@ async function analyze(e){
     btn.disabled = true
     form.style.color = "#C8D0C5"
     responseContainer.style.color = "#C8D0C5"
-
-    
-    // description.style.color = "#C8D0C5"
 
     const jobDescription = textArea.value
     const resume = file.files[0]
@@ -130,6 +126,7 @@ logoutBtn.addEventListener("click", async ()=>{
 
 closeBtn.addEventListener("click", ()=>{
     messageBox.style.display = "none"
+    message.textContent = "Please wait..."
     btn.disabled = false
     form.style.color = "white"
     responseContainer.style.color = "white"
