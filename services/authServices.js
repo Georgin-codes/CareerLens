@@ -52,11 +52,11 @@ export async function logOut(access_token){
         const {error} = await supabaseClient.auth.signOut({scope:'local'})
         
         if(error){
-                console.error(`Supabase logout failed, redirects to login, error:${error}`)
-                return {error:`Error logging out, error:${error}`}
+                console.error(`Supabase logout failed, redirects to login, error:${error.message}`)
+                return {error:`Error logging out, error:${error.message}`}
         }
 
-        return null
+        return {sucess:true}
 
     }catch(error){
         console.error("Logout Failed")
