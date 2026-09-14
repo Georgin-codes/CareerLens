@@ -123,7 +123,7 @@ export async function currentUser(req, res){
 
     if(data.error){
         console.error(data.error)
-        return res.status(404).json({profileName:"Guest"})
+        return res.status(404).json({profileName:"Guest!"})
     }
 
     res.json({profileName:data.full_name})
