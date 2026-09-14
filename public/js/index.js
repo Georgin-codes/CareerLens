@@ -82,14 +82,14 @@ forgotPassword.addEventListener("click", async ()=>{
             return apiResponse.textContent = "Unable to verify or reset password"
         }
 
-        apiResponse.textContent = "If an account exists, the user will receive a password reset email."
+        return apiResponse.textContent = "If an account exists, the user will receive a password reset email."
         
-        return setTimeout(()=>{
-            apiResponseCont.style.display = "none"
-            submitBtn.disabled = false
-            title.style.color = "#55a630"
-            description.style.color = "white"
-            }, 3000)
+        // return setTimeout(()=>{
+        //     apiResponseCont.style.display = "none"
+        //     submitBtn.disabled = false
+        //     title.style.color = "#55a630"
+        //     description.style.color = "white"
+        //     }, 3000)
        
    }
    catch(error){
