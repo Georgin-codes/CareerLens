@@ -43,6 +43,11 @@ export async function signInUser(email, password){
         })
         if(error){
             console.error(`Supabase error, error: ${error.message}`)
+
+            //to check the user verified the email or not
+            if(error.code === 'email_not_confirmed'){
+                return {error:"Please verify your email address before logging in"}
+            }
             return {error:"Invalid user name or password."}
         }
 

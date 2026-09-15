@@ -4,8 +4,8 @@ export async function insertUser(userId, name, access_token){
 
     try{
         const supabaseClient = connectDb(access_token)
+        
         //to check the user exist
-
         const {data, error} = await supabaseClient
                             .from("profiles")
                             .select("user_id")

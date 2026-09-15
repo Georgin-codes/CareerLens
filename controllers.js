@@ -95,6 +95,11 @@ export async function loginUser(req, res){
             return res.status(401).json({message:data.error})
         }
 
+        if(!data.session){
+            console.error("Login successful but no session was returned")
+            return res.status(401).json({message:"Please try logging in again"})
+        }
+
         const access_token = data.session.access_token
 
         res.cookie("access_token", access_token, {
@@ -119,7 +124,7 @@ export async function loginUser(req, res){
     }
     catch(error){
         console.error(`Authentication failed, error: ${error.message}`)
-        return res.status(500).json({message:"Internal server error"})
+        return res.status(500).json({message:"Unable to log you in. Please try again."})
     }
 
 }
