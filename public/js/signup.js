@@ -31,12 +31,7 @@ form.addEventListener('submit', async (e)=>{
         })
 
         const data = await response.json()
-        apiResponse.innerHTML = data.message
-
-        if(response.ok){
-            setTimeout(()=>{ 
-                window.location.href = '/'}, 2000
-        )}
+        apiResponse.textContent = data.message
 
     }
    catch(error){
