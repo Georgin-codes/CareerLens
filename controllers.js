@@ -61,20 +61,10 @@ export async function registerUser(req, res){
     name = name.trim().toLowerCase()
   
     try{
-        const data = await signUpUser(email, password)
+        const data = await signUpUser(email, password, name)
 
         if(data.error){
             return res.status(500).json({message:data.error})
-        }
-      
-        const userId = data.user.id
-
-        const accessToken = data.session.access_token
-
-        const profileData = await insertUser(userId, accessToken, name)
-
-        if(profileData.error){
-            return res.status(500).json({message:profileData.error})
         }
 
         return res.json({message:"Check your email to verify your account and continue"})
@@ -94,6 +84,10 @@ export async function loginUser(req, res){
 
     const result = validateCredentials(email, password)
 
+    if(result.error){
+        return res.status(400).json({message:result.error})
+    }
+
     try{
         const data = await signInUser(email, password)
      
@@ -102,12 +96,24 @@ export async function loginUser(req, res){
         }
 
         const access_token = data.session.access_token
+
         res.cookie("access_token", access_token, {
             httpOnly:true,
             secure:process.env.NODE_ENV === "production",
             sameSite:"lax",
             maxAge:60*60*1000})
-  
+
+        //
+        const userId = data.user.id
+        const name = data.user.user_metadata.full_name
+
+        const profileData = await insertUser(userId, name, access_token)
+
+        if(profileData.error){
+            console.error(`Profile creation failed, ${profileData.error}`)
+            return res.status(500).json({message:profileData.error})
+        }
+
         return res.json({message:"Loging in"})
             
     }

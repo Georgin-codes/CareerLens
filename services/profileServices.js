@@ -1,19 +1,40 @@
 import { connectDb } from '../db/db.js'
 
-export async function insertUser(userId, accessToken, name){
+export async function insertUser(userId, name, access_token){
 
     try{
-        const supabaseClient = connectDb(accessToken)
-        const {data:profileData,error:profileError} = await supabaseClient.from("profiles").insert({
-            user_id : userId,
-            full_name: name
-                }).select()
+        const supabaseClient = connectDb(access_token)
+        //to check the user exist
 
-         if(profileError){
-            console.error(`Profile creation unsuccessfull, ${profileError.message}`)
-            return {error:"Registration Failed"}
+        const {data, error} = await supabaseClient
+                            .from("profiles")
+                            .select("user_id")
+                            .eq("user_id", userId)
+                            .maybeSingle()
+
+        if(error){
+            console.error(`Failed to check profile, ${error.message}`)
+            return {error:"Failed to check profile"}
+
+        }            
+        //inserting user into profiles table if not exists
+        if(!data){
+            const {data:profileData,error:profileError} = await supabaseClient
+                                                        .from("profiles")
+                                                        .insert({
+                                                            user_id : userId,
+                                                            full_name: name
+                                                        })
+
+            if(profileError){
+                console.error(`Profile creation unsuccessfull, ${profileError.message}`)
+                return {error:"Registration Failed"}
+            }
+
+            return profileData
         }
-        return profileData
+
+        return data
 
     }catch(error){
         console.error("Profile creation unsuccessfull")

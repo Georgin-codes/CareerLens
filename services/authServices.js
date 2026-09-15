@@ -1,18 +1,30 @@
 import { connectDb } from '../db/db.js'
 
-export async function signUpUser(email, password){
+export async function signUpUser(email, password, name){
 
     try{
         const supabaseClient = connectDb()
+        //storing name as the meta data
         const {data, error} = await supabaseClient.auth.signUp({
             email:email,
-            password:password
+            password:password,
+            options:{
+                data:{
+                    full_name: name,
+                }
+            }
         })
         if(error){
-            console.error(`Signup failed, ${error}`)
-            return {error:"Registration Failed"}
+            console.error(`Signup failed, ${error.message}`)
+            return {error:`Registration Failed, ${error.message}`}
         }
-        return data
+        if(!data.user){
+            return {error: "User account could not be created"}
+        }
+        return {
+            user: data.user,
+            session:data.session
+        }
 
     }catch(error){
         console.error("Signup failed")
