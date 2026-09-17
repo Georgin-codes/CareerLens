@@ -52,7 +52,7 @@ input, label{
 .authentication-message{
     border:1px solid #55a630;
     text-align: center;
-    position:relative;
+    position:fixed;
     padding:1em 0;
     display: none;
     background-color: #1c1c1c;
