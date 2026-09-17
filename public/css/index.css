@@ -54,7 +54,6 @@ input, label{
     text-align: center;
     position:fixed;
     padding:1em 0;
-    display: none;
     background-color: #1c1c1c;
     top:0;
     bottom:0;
@@ -63,7 +62,7 @@ input, label{
     margin:auto;
     height:10vh;
     width:70%;
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
 }
