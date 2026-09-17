@@ -56,6 +56,16 @@ input, label{
     padding:1em 0;
     display: none;
     background-color: #1c1c1c;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    margin:auto;
+    height:10vh;
+    width:70%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .close-btn{
@@ -124,16 +134,6 @@ input, label{
         font-size: 3.5rem;
     }
 
-    .authentication-message{
-        position:fixed;
-        top:0;
-        bottom:0;
-        left:0;
-        right:0;
-        margin:auto;
-        height: 10vh;
-        width:70%;
-    }
 }
 
 @media(min-width:1080px){
