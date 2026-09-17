@@ -66,7 +66,7 @@ forgotPassword.addEventListener("click", async ()=>{
     title.style.color = "#AFC0A3"
     description.style.color = "#C8D0C5"
     forgotPassword.disabled = true;
-    apiResponseCont.style.display = "flex"
+    apiResponseCont.style.display = "block"
 
     const email = document.getElementById('email').value.trim()
     if(!email || !email.includes('@')){
