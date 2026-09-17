@@ -12,6 +12,7 @@ header{
     width:90%;
     padding-left: 1em;
     padding-bottom: 5em;
+    margin-bottom: 3em;
 }
 
 .signup-form{
@@ -19,13 +20,14 @@ header{
     grid-template-rows: repeat(4, 40px) 50px;
     grid-template-columns: 1fr;
     justify-content: center;
-    height: 27vh;
+    height: 40vh;
     margin-bottom: 1.5em;
 }
 
 .form-container{
     display: flex;
     flex-direction: column;
+    height: 80vh;
 }
 
 label{
@@ -174,6 +176,7 @@ a{
     header p{
         font-size: 1.15rem;
         line-height: 1.5em;
+        margin-bottom: 1em;
     }
 
     header{
@@ -183,6 +186,10 @@ a{
     .authentication-message{
         width:82%;
         font-size: 0.95em;
+    }
+
+    .signup-form{
+        margin-top: 2em;
     }
 
 }
@@ -244,7 +251,6 @@ a{
         display: flex;
         justify-content: center;
         margin-top: 1.5em;
-        height: 35vh;
         padding:0;
     }
 
@@ -270,7 +276,7 @@ a{
         font-size: 0.9rem;
         text-align: center;
         /* padding: 0 2em; */
-        margin:0 auto;
+        margin:4em auto 0;
     }
 
     #link p{
@@ -300,12 +306,12 @@ a{
 
     #link{
         font-size: 1rem;
-        margin:10em auto 0;  
+        margin:0 auto 0;  
     }
 
     .form-container{
         margin-left: 6em;
-        height:70vh;
+        height:100vh;
         width:100%;
         align-items: center;
 
@@ -314,8 +320,10 @@ a{
     .signup-form{
         grid-template-rows: repeat(8, 70px) 50px;
         margin-left: 0;
+        margin-bottom: 0;
         height:31vh;
         padding-left:0;
+        height: 70vh;
     }
 
     .btn{
