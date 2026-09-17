@@ -19,7 +19,7 @@ async function getProfileName(){
         const data = await res.json()
 
         if(data.profileName){
-             guestName.textContent = data.profileName
+             guestName.textContent = (data.profileName).toUpperCase()
         }
        
     }
